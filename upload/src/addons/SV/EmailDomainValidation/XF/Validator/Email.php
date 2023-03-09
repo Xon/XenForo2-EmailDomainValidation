@@ -4,6 +4,7 @@ namespace SV\EmailDomainValidation\XF\Validator;
 
 use SV\EmailDomainValidation\EmailValidation as XFEmailValidation;
 use Egulias\EmailValidator\EmailValidator;
+use SV\EmailDomainValidation\Globals;
 use function assert;
 
 /**
@@ -11,11 +12,17 @@ use function assert;
  */
 class Email extends XFCP_Email
 {
+    protected function setupOptionDefaults()
+    {
+        parent::setupOptionDefaults();
+        $this->options['dns_validate'] = Globals::$doExtendedDomainValidation ?? true;
+    }
+
     public function isValid($value, &$errorKey = null)
     {
         $isValid = parent::isValid($value, $errorKory);
 
-        if ($isValid && $value !== '')
+        if ($isValid && $value !== '' && ($this->options['dns_validate'] ?? true))
         {
             $validator = new EmailValidator();
 
