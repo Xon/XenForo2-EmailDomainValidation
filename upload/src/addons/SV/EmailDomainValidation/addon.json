@@ -8,7 +8,9 @@
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
     "support_url": "",
-    "extra_urls": [],
+    "extra_urls": {
+        "License": "https://atelieraphelion.com/products/license-agreement/"
+    },
     "require": {
         "XF": [2020070, "XenForo 2.2.0+"],
         "php": ["7.2.0", "PHP 7.2.0+"]
