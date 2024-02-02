@@ -5,7 +5,7 @@ namespace SV\EmailDomainValidation\XF\Entity;
 use SV\EmailDomainValidation\Globals;
 
 /**
- * Extends \XF\Entity\User
+ * @Extends \XF\Entity\User
  */
 class User extends XFCP_User
 {

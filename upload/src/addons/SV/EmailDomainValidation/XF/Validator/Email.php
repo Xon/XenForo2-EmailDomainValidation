@@ -8,7 +8,7 @@ use SV\EmailDomainValidation\Globals;
 use function assert;
 
 /**
- * Extends \XF\Validator\Email
+ * @Extends \XF\Validator\Email
  */
 class Email extends XFCP_Email
 {
