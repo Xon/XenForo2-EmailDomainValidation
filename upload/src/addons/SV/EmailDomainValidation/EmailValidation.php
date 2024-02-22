@@ -8,6 +8,7 @@ use Egulias\EmailValidator\Exception\InvalidEmail;
 use Egulias\EmailValidator\Exception\LocalOrReservedDomain;
 use Egulias\EmailValidator\Exception\NoDNSRecord;
 use Egulias\EmailValidator\Warning\NoDNSMXRecord;
+use SV\StandardLib\Helper;
 use function count;
 use function dns_get_record;
 use function explode;
@@ -176,8 +177,7 @@ class EmailValidation implements \Egulias\EmailValidator\Validation\EmailValidat
 
         if ($this->xfBannedEmails)
         {
-            /** @var \XF\Repository\Banning $banRepo */
-            $banRepo = \XF::repository('XF:Banning');
+            $banRepo = Helper::repository(\XF\Repository\Banning::class);
 
             $email = $localPart . '@' . $target;
 

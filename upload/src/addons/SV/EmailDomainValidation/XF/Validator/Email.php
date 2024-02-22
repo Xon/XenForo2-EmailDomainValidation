@@ -5,7 +5,7 @@ namespace SV\EmailDomainValidation\XF\Validator;
 use SV\EmailDomainValidation\EmailValidation as XFEmailValidation;
 use Egulias\EmailValidator\EmailValidator;
 use SV\EmailDomainValidation\Globals;
-use function assert;
+use SV\StandardLib\Helper;
 
 /**
  * @Extends \XF\Validator\Email
@@ -26,10 +26,7 @@ class Email extends XFCP_Email
         {
             $validator = new EmailValidator();
 
-            $class = \XF::extendClass(XFEmailValidation::class);
-            $emailValidation = new $class($this->options['banned'] ?? []);
-            assert($emailValidation instanceof XFEmailValidation);
-
+            $emailValidation =  Helper::newExtendedClass(XFEmailValidation::class, $this->options['banned'] ?? []);
             if (!$validator->isValid($value, $emailValidation))
             {
                 $errorKey = $validator->getWarnings()[XFEmailValidation::BANNED_EMAIL_CODE] ?? false
