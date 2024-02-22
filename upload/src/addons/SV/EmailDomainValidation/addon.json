@@ -2,7 +2,7 @@
     "legacy_addon_id": "",
     "title": "Email domain validation",
     "description": "DNS check on email record, and check any MX record for banned email domains",
-    "version_id": 1010000,
+    "version_id": 1708633785,
     "version_string": "1.1.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
@@ -24,7 +24,7 @@
             "7.2.0",
             "PHP 7.2.0+"
         ],
-        "SV/SignupAbuseBlocking":[
+        "SV/SignupAbuseBlocking": [
             "1.10.0",
             "Signup abuse detection and blocking v1.10.0+"
         ]
