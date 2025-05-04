@@ -3,7 +3,6 @@
 namespace SV\EmailDomainValidation\XF\Validator;
 
 use SV\EmailDomainValidation\EmailValidation as XFEmailValidation;
-use Egulias\EmailValidator\EmailValidator;
 use SV\EmailDomainValidation\Globals;
 use SV\StandardLib\Helper;
 
@@ -24,12 +23,10 @@ class Email extends XFCP_Email
 
         if ($isValid && $value !== '' && ($this->options['dns_validate'] ?? true))
         {
-            $validator = new EmailValidator();
-
             $emailValidation =  Helper::newExtendedClass(XFEmailValidation::class, $this->options['banned'] ?? []);
-            if (!$validator->isValid($value, $emailValidation))
+            if (!$emailValidation->isValid($value))
             {
-                $errorKey = $validator->getWarnings()[XFEmailValidation::BANNED_EMAIL_CODE] ?? false
+                $errorKey = $emailValidation->warning[XFEmailValidation::BANNED_EMAIL] ?? false
                     ? 'banned'
                     : 'invaliddomain';
 
