@@ -18,6 +18,7 @@
 	
 	<xf:if is="$signupErrors is not empty">
 		<div class="block-rowMessage block-rowMessage--error block-rowMessage--iconic">
+			<p>{{ phrase('svEmailDomainValidation_antispam_rules_matching_this_email_address_during_signup:') }}</p>
 			<ul>
 				<xf:foreach loop="$signupErrors" value="$phrase">
 					<li>{$phrase}</li>
