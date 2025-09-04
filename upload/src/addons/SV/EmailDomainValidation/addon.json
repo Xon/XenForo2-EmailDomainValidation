@@ -3,7 +3,7 @@
     "title": "Email domain validation",
     "description": "DNS check on email record, and check any MX record for banned email domains",
     "version_id": 1746348395,
-    "version_string": "1.2.0",
+    "version_string": "1.3.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
@@ -13,8 +13,8 @@
     },
     "require": {
         "SV/StandardLib": [
-            2001190000,
-            "Standard Library by Xon v1.19.0+"
+            2001220000,
+            "Standard Library by Xon v1.22.0+"
         ],
         "XF": [
             "2.2.0",
