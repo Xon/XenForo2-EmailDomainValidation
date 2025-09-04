@@ -21,12 +21,12 @@ class Email extends XFCP_Email
     {
         $isValid = parent::isValid($value, $errorKey);
 
-        if ($isValid && $value !== '' && ($this->options['dns_validate'] ?? true))
+        if ($isValid && $value !== '' && $this->options['dns_validate'])
         {
             $emailValidation =  Helper::newExtendedClass(XFEmailValidation::class, $this->options['banned'] ?? []);
             if (!$emailValidation->isValid($value))
             {
-                $errorKey = $emailValidation->warning[XFEmailValidation::BANNED_EMAIL] ?? false
+                $errorKey = $emailValidation->warnings[XFEmailValidation::BANNED_EMAIL]
                     ? 'banned'
                     : 'invaliddomain';
 
