@@ -22,26 +22,27 @@ class Email extends XFCP_Email
     public function isValid($value, &$errorKey = null)
     {
         $isValid = parent::isValid($value, $errorKey);
+        $options = $this->options;
 
         if ($value === '' || !$isValid)
         {
-            if ($errorKey === 'banned' && $this->options['sv_extended_error'])
+            if ($errorKey === 'banned' && ($options['sv_extended_error'] ?? false))
             {
                 // extract *what* is banned
                 $banningRepo = Helper::repository(BanningRepo::class);
-                $entry = $banningRepo->getBannedEntryFromEmail($value, $this->options['banned']);
+                $entry = $banningRepo->getBannedEntryFromEmail($value, $options['banned']);
                 $errorKey = ['banned_entry' => ['entry' => $entry]];
             }
 
             return $isValid;
         }
 
-        if ($this->options['dns_validate'])
+        if ($options['dns_validate'] ?? false)
         {
-            $emailValidation =  Helper::newExtendedClass(XFEmailValidation::class, $this->options['banned'] ?? []);
+            $emailValidation =  Helper::newExtendedClass(XFEmailValidation::class, $options['banned']);
             if (!$emailValidation->isValid($value))
             {
-                if ($this->options['sv_extended_error'])
+                if ($options['sv_extended_error'] ?? false)
                 {
                     $errorKey = [];
                     $errorKey[] = $emailValidation->error;
