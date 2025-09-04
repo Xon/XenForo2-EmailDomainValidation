@@ -1,0 +1,59 @@
+<xf:title>{{ phrase('admin_navigation.svTestEmailAddressValidity') }}</xf:title>
+<xf:description>{{ phrase('svEmailDomainValidation_use_this_tool_to_diagnose_emails_being_rejected') }}</xf:description>
+
+<xf:if is="$email !== ''">
+	<xf:if is="$isValid">
+		<div class="block-rowMessage block-rowMessage--success block-rowMessage--iconic">
+			{{ phrase('svEmailDomainValidation_email.valid') }}
+		</div>
+	</xf:if>
+
+	<xf:if is="$formatedEmail != $email">
+		<div class="block-rowMessage block-rowMessage--important block-rowMessage--iconic">
+			{{ phrase('svEmailDomainValidation_email_formatting_different', {
+				'email': $formatedEmail
+			}) }}
+		</div>
+	</xf:if>
+	
+	<xf:if is="$signupErrors is not empty">
+		<div class="block-rowMessage block-rowMessage--error block-rowMessage--iconic">
+			<ul>
+				<xf:foreach loop="$signupErrors" value="$phrase">
+					<li>{$phrase}</li>
+				</xf:foreach>
+			</ul>
+		</div>
+	</xf:if>
+	
+	<xf:if is="$errors is not empty">
+		<div class="block-rowMessage block-rowMessage--error block-rowMessage--iconic">
+			<ul>
+				<xf:foreach loop="$errors" value="$phrase">
+					<li>{$phrase}</li>
+				</xf:foreach>
+			</ul>
+		</div>
+	</xf:if>
+
+	<xf:if is="$warnings is not empty">
+		<div class="block-rowMessage block-rowMessage--warning block-rowMessage--iconic">
+			<ul>
+				<xf:foreach loop="$warnings" value="$phrase">
+					<li>{$phrase}</li>
+				</xf:foreach>
+			</ul>
+		</div>
+	</xf:if>
+</xf:if>
+
+<xf:form action="{{ link('tools/test-email-address-validity') }}" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:textboxrow name="email" value="{$email}" type="email"
+				label="{{ phrase('email') }}"
+				dir="ltr" />
+		</div>
+		<xf:submitrow submit="{{ phrase('run_test') }}" />
+	</div>
+</xf:form>

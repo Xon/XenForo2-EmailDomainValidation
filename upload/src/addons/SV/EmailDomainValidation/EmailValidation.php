@@ -23,13 +23,13 @@ class EmailValidation
     public const BANNED_EMAIL             = 'banned_email';
     public const LOCAL_OR_RESERVED_DOMAIN = 'local_or_reserved_domain';
     public const NO_DNS_RECORD            = 'no_dns_record';
-    public const NO_DNS_MX_RECORD         = 'no_dns_max_record';
+    public const NO_DNS_MX_RECORD         = 'no_dns_mx_record';
     public const ACCEPTS_NO_MAIL          = 'accepts_no_mail';
 
 
     /** @var string */
     public $error;
-    /** @var array<string, bool> */
+    /** @var array<string, bool|string|array> */
     public $warnings;
 
     /**
@@ -160,9 +160,10 @@ class EmailValidation
 
             $email = $localPart . '@' . $target;
 
-            if ($banRepo->isEmailBanned($email, $this->xfBannedEmails))
+            $bannedEntry = $banRepo->getBannedEntryFromEmail($email, $this->xfBannedEmails);
+            if ($bannedEntry !== null)
             {
-                $this->warnings[static::BANNED_EMAIL] = true;
+                $this->warnings[static::BANNED_EMAIL] = $bannedEntry;
 
                 return false;
             }
