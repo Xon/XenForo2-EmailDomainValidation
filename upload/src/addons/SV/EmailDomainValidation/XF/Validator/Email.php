@@ -19,7 +19,7 @@ class Email extends XFCP_Email
 
     public function isValid($value, &$errorKey = null)
     {
-        $isValid = parent::isValid($value, $errorKory);
+        $isValid = parent::isValid($value, $errorKey);
 
         if ($isValid && $value !== '' && ($this->options['dns_validate'] ?? true))
         {
