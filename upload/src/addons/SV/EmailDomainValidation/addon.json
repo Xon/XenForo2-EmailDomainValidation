@@ -9,7 +9,8 @@
     "faq_url": "",
     "support_url": "",
     "extra_urls": {
-        "License": "https://atelieraphelion.com/products/license-agreement/"
+        "License": "https://atelieraphelion.com/products/license-agreement/",
+        "Add-on site": "https://atelieraphelion.com/products/email-domain-validation.268/"
     },
     "require": {
         "SV/StandardLib": [
