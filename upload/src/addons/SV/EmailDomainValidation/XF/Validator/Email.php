@@ -6,6 +6,7 @@ use SV\EmailDomainValidation\EmailValidation as XFEmailValidation;
 use SV\EmailDomainValidation\Globals;
 use SV\StandardLib\Helper;
 use XF\Repository\Banning as BanningRepo;
+use function is_string;
 
 /**
  * @Extends \XF\Validator\Email
@@ -19,6 +20,7 @@ class Email extends XFCP_Email
         $this->options['sv_extended_error'] = false;
     }
 
+    /** @noinspection PhpMissingReturnTypeInspection */
     public function isValid($value, &$errorKey = null)
     {
         $isValid = parent::isValid($value, $errorKey);
@@ -37,35 +39,49 @@ class Email extends XFCP_Email
             return $isValid;
         }
 
-        if ($options['dns_validate'] ?? false)
+        if (($options['dns_validate'] ?? false) && $this->hasInvalidDNS($value, $errorKey))
         {
-            $emailValidation =  Helper::newExtendedClass(XFEmailValidation::class, $options['banned']);
-            if (!$emailValidation->isValid($value))
-            {
-                if ($options['sv_extended_error'] ?? false)
-                {
-                    $errorKey = [];
-                    $errorKey[] = $emailValidation->error;
-                    $bannedEntry = $emailValidation->warnings[XFEmailValidation::NO_DNS_MX_RECORD] ?? false;
-                    if (is_string($bannedEntry))
-                    {
-                        $errorKey[] = XFEmailValidation::NO_DNS_MX_RECORD;
-                    }
-                    $bannedEntry = $emailValidation->warnings[XFEmailValidation::BANNED_EMAIL] ?? false;
-                    if (is_string($bannedEntry))
-                    {
-                        $errorKey['banned_entry'] = ['entry' => $bannedEntry];
-                    }
-                }
-                else
-                {
-                    $errorKey = ($emailValidation->warnings[XFEmailValidation::BANNED_EMAIL] ?? false)
-                        ? 'banned'
-                        : 'invaliddomain';
-                }
+            return false;
+        }
 
-                return false;
+        return true;
+    }
+
+    /**
+     * @param string $email
+     * @param array|string|null &$errorKey
+     * @return bool
+     */
+    protected function hasInvalidDNS(string $email, &$errorKey): bool
+    {
+        $options = $this->options;
+
+        $emailValidation = Helper::newExtendedClass(XFEmailValidation::class, $options['banned']);
+        if ($emailValidation->isValid($email))
+        {
+            return false;
+        }
+
+        if ($options['sv_extended_error'] ?? false)
+        {
+            $errorKey = [];
+            $errorKey[] = $emailValidation->error;
+            $bannedEntry = $emailValidation->warnings[XFEmailValidation::NO_DNS_MX_RECORD] ?? false;
+            if (is_string($bannedEntry))
+            {
+                $errorKey[] = XFEmailValidation::NO_DNS_MX_RECORD;
             }
+            $bannedEntry = $emailValidation->warnings[XFEmailValidation::BANNED_EMAIL] ?? false;
+            if (is_string($bannedEntry))
+            {
+                $errorKey['banned_entry'] = ['entry' => $bannedEntry];
+            }
+        }
+        else
+        {
+            $errorKey = ($emailValidation->warnings[XFEmailValidation::BANNED_EMAIL] ?? false)
+                ? 'banned'
+                : 'invaliddomain';
         }
 
         return true;
