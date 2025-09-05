@@ -4,7 +4,7 @@
     "description": "DNS check on email record, and check any MX record for banned email domains",
     "version_id": 1746348395,
     "version_string": "1.3.0",
-    "dev": "Xon",
+    "dev": "Atelier Aphelion",
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
     "support_url": "https://xenforo.com/community/resources/email-domain-validation.10051/",
